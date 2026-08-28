@@ -1,5 +1,5 @@
 module.exports = {
-  help: ['setwelcome', 'setbye'],
+  help: ['setwelcome', 'setleft'],
   use: 'text',
   tags: 'admin',
   run: async (m, {

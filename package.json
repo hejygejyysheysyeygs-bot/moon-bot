@@ -30,7 +30,7 @@
    },
    "dependencies": {
       "@whiskeysockets/baileys": "v7.0.0-rc14",
-      "@znan/wabot": "^0.2.2-beta.1",
+      "@znan/wabot": "github:znanx/wabot#98dff2b696e74db28cc860867ab14779ad9b7047",
       "archiver": "^7.0.1",
       "cfonts": "^3.3.0",
       "express": "^4.21.2",
