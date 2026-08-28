@@ -1,4 +1,17 @@
 const util = require('util')
+const dns = require('dns').promises
+const net = require('net')
+
+function isPrivateIP(ip) {
+   if (net.isIPv4(ip)) {
+      const [a, b] = ip.split('.').map(Number)
+      return a === 10 || a === 127 || a === 0 ||
+         (a === 169 && b === 254) ||
+         (a === 172 && b >= 16 && b <= 31) ||
+         (a === 192 && b === 168)
+   }
+   return ip === '::1' || /^fe80:/i.test(ip) || /^f[cd]/i.test(ip)
+}
 
 module.exports = {
    help: ['fetch'],
@@ -13,6 +26,10 @@ module.exports = {
       Func
    }) => {
       if (!/^https?:\/\//.test(text)) throw Func.example(usedPrefix, command, 'https://google.com')
+
+      const { hostname } = new URL(text)
+      const { address } = await dns.lookup(hostname)
+      if (isPrivateIP(address)) throw 'This URL is not allowed.'
 
       const res = await fetch(text)
       const length = Number(res.headers.get('content-length') || 0)
